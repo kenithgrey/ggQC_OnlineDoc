@@ -1,0 +1,123 @@
+---
+title: "HOW TO: XmR & mR Plots"
+author: "Kenith Grey"
+date: "`r Sys.Date()`"
+output:
+  html_document:
+    toc: true
+    toc_float: true
+    toc_depth: 4
+    highlight: pygments
+    theme: journal 
+---
+
+#Required Libraries#
+```{r, message=FALSE, warning=FALSE}
+require(ggplot2)
+require(ggQC)
+require(gridExtra)
+```
+
+#Example 1 : Basic Plot#
+##Setup##
+```{r Setup Data}
+set.seed(5555)
+Process1 <- data.frame(processID = as.factor(rep(1,20)),
+                       metric_value = rnorm(20,0,1),
+                       subgroup_sample=letters[1:20],
+                       Process_run_id = 1:20)
+
+INDV <- ggplot(Process1, aes(x=Process_run_id, y = metric_value)) 
+```
+
+##Basic XmR-mR Plot##
+```{r XmR mR Plot, message=FALSE, warning=FALSE, fig.height=6}
+XmR <- INDV + geom_point() + geom_line() +
+       stat_QC(method = "XmR") +
+       stat_QC_labels(method = "XmR", digits = 2)
+
+mR <- INDV + stat_mR() +
+      stat_QC_labels(method = "mR", digits = 2) +
+      ylab("mR")
+
+grid.arrange(XmR, mR, ncol=1)
+```
+
+#Example 2: x as Factor#
+##Setup##
+```{r Indivduals Chart-x as factor, fig.width=4, fig.height=4}
+INDV <- ggplot(Process1, aes(x=subgroup_sample, y = metric_value)) 
+```
+
+##XmR-mR: x as factor (Wrong Way)##
+
+  Oh my! looks like something went horrabily wrong. See fix below using **group** aesthetic.
+
+```{r XmR mR Plot with Factor, message=FALSE, warning=FALSE, fig.height=6}
+XmR <- INDV + geom_point() + geom_line() +
+       stat_QC(method = "XmR") +
+       stat_QC_labels(method = "XmR", digits = 2)
+
+mR <- INDV + stat_mR() +
+      stat_QC_labels(method = "mR", digits = 2) +
+      ylab("mR")
+
+grid.arrange(XmR, mR, ncol=1)
+```
+
+##XmR-mR: x as factor (Right Way)##
+
+Issue solved using **group** asthetic (i.e, group=1). 
+```{r Indivduals Chart-x as factor-group, fig.width=4, fig.height=4}
+INDV <- ggplot(Process1, aes(x=subgroup_sample, y = metric_value, group=1)) 
+```
+
+```{r XmR mR Plot with Factor-group, message=FALSE, warning=FALSE, fig.height=6}
+XmR <- INDV + geom_point() + geom_line() +
+       stat_QC(method = "XmR") +
+       stat_QC_labels(method = "XmR", digits = 2)
+
+mR <- INDV + stat_mR() +
+      stat_QC_labels(method = "mR", digits = 2) +
+      ylab("mR")
+
+grid.arrange(XmR, mR, ncol=1)
+```
+
+#Example 3: XmR mR Faceting#
+##Setup Faceting Data##
+
+Here we are using two processes and binding the data together into one data.frame
+```{r Faceting Setup Data}
+set.seed(5555)
+Process1 <- data.frame(processID = as.factor(rep(1,20)),
+                       metric_value = rnorm(20,0,1),
+                       subgroup_sample=letters[1:20],
+                       Process_run_id = 1:20)
+Process2 <- data.frame(processID = as.factor(rep(2,20)),
+                       metric_value = rnorm(20,5,2),
+                       subgroup_sample=letters[1:20],
+                       Process_run_id = 1:20)
+
+BothProcesses <- rbind(Process1, Process2)
+```
+
+##ggplot Faceting Init##
+```{r Facet Indivduals Chart, fig.width=4, fig.height=4}
+INDV <- ggplot(BothProcesses, aes(x=Process_run_id, y = metric_value)) 
+```
+
+##Basic XmR-mR Facet Plot##
+```{r Facet XmR mR Plot, message=FALSE, warning=FALSE, fig.height=6}
+XmR <- INDV + geom_point() + geom_line() +
+       stat_QC(method = "XmR") +
+       stat_QC_labels(method = "XmR", digits = 2) +
+       facet_grid(.~processID)
+
+mR <- INDV + stat_mR() +
+      stat_QC_labels(method = "mR", digits = 2) +
+      ylab("mR") +
+      facet_grid(.~processID)
+
+grid.arrange(XmR, mR, ncol=1)
+```
