@@ -1,0 +1,106 @@
+---
+title: "Two Way Charts"
+author: "Kenith Grey"
+date: "`r Sys.Date()`"
+output:
+  html_document:
+    toc: true
+    toc_float: true
+    toc_depth: 4
+    highlight: pygments
+    theme: journal 
+---
+
+#Required Libraries#
+```{r, message=FALSE, warning=FALSE}
+require(ggplot2)
+require(ggQC)
+require(gridExtra)
+```
+
+#Example 1 : XmR & mR#
+##Setup##
+```{r Setup Data}
+set.seed(5555)
+Process1 <- data.frame(processID = as.factor(rep(1,20)),
+                       metric_value = rnorm(20,0,1),
+                       subgroup_sample=letters[1:20],
+                       Process_run_id = 1:20)
+
+INDV <- ggplot(Process1, aes(x=Process_run_id, y = metric_value)) 
+```
+
+##XmR-mR Plot##
+```{r XmR mR Plot, message=FALSE, warning=FALSE, fig.height=6}
+XmR <- INDV + geom_point() + geom_line() +
+       stat_QC(method = "XmR") +
+       stat_QC_labels(method = "XmR", digits = 2)
+
+mR <- INDV + stat_mR() +
+      stat_QC_labels(method = "mR", digits = 2) +
+      ylab("mR")
+
+grid.arrange(XmR, mR, ncol=1)
+```
+
+
+#Example 2 : Xbar & R#
+##Setup##
+```{r Xbar R Setup Data}
+set.seed(5555)
+Process1 <- data.frame(processID = as.factor(rep(1,30)),
+                       metric_value = rnorm(30,0,1),
+                       subgroup_sample=rep(letters[1:10], each = 3),
+                       Process_run_id = 1:30)
+
+ggXbarR <- ggplot(Process1, aes(x=subgroup_sample, y = metric_value, group=1)) 
+```
+
+##Xbar & R Chart##
+```{r Xbar and R Plot, message=FALSE, warning=FALSE, fig.height=6}
+Xbar <- ggXbarR +
+        stat_summary(fun.y = "mean", colour = "black", geom = c("line")) +
+        stat_summary(fun.y = "mean", colour = "black", size = 2, geom = c("point")) +
+        stat_QC(method = "xBar.rBar") +
+        stat_QC_labels(method = "xBar.rBar", digits = 2)
+
+R <- ggXbarR + 
+      stat_summary(fun.y = "QCrange", colour = "black", geom = c("line")) +
+      stat_summary(fun.y = "QCrange", colour = "black", size = 2, geom = c("point")) +
+      stat_QC(method = "rBar", digits = 2) +
+      stat_QC_labels(method = "rBar", digits = 2) +
+      ylab("R-bar")
+
+grid.arrange(Xbar, R, ncol=1)
+```
+
+
+#Example 3 : Xbar & S#
+##Setup##
+```{r Xbar S Setup Data}
+set.seed(5555)
+Process1 <- data.frame(processID = as.factor(rep(1,30)),
+                       metric_value = rnorm(30,0,1),
+                       subgroup_sample=rep(letters[1:10], each = 3),
+                       Process_run_id = 1:30)
+
+ggXbarR <- ggplot(Process1, aes(x=subgroup_sample, y = metric_value, group=1)) 
+```
+
+##Xbar & S Chart##
+```{r Xbar and S Plot, message=FALSE, warning=FALSE, fig.height=6}
+Xbar <- ggXbarR +
+        stat_summary(fun.y = "mean", colour = "black", geom = c("line")) +
+        stat_summary(fun.y = "mean", colour = "black", size = 2, geom = c("point")) +
+        stat_QC(method = "xBar.sBar") +
+        stat_QC_labels(method = "xBar.sBar", digits = 2)
+
+S <- ggXbarR + 
+      stat_summary(fun.y = "sd", colour = "black", geom = c("line")) +
+      stat_summary(fun.y = "sd", colour = "black", size = 2, geom = c("point")) +
+      stat_QC(method = "sBar", digits = 2) +
+      stat_QC_labels(method = "sBar", digits = 2) +
+      ylab("S-bar")
+
+grid.arrange(Xbar, S, ncol=1)
+```
