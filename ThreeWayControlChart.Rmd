@@ -1,0 +1,90 @@
+---
+title: "Three Way Chart HOWTO"
+author: "Kenith Grey"
+date: "`r Sys.Date()`"
+output:
+  html_document:
+    toc: true
+    toc_float: true
+    toc_depth: 4
+    highlight: pygments
+    theme: journal 
+---
+
+#Required Libraries#
+```{r, message=FALSE, warning=FALSE}
+require(ggplot2)
+require(ggQC)
+require(gridExtra)
+```
+
+```{r Setup Data}
+Process1 <- data.frame(ID = 1:100, process = rep(1,100), value = rnorm(100,0,1), repitition=1:20 )
+Process2 <- data.frame(ID = 101:200, process = rep(2,100), value = rnorm(100,5,.5), repitition=1:10 )
+all_processes <- rbind(Process1, Process2)
+
+```
+
+#Simple Three Way Chart#
+
+```{r, message=FALSE, warning=FALSE, fig.height=10}
+ggX <- ggplot(data = Process1, aes(x=repitition, y=value)) +
+  stat_summary(fun.y = "mean", color="black", geom=c("line")) +
+  stat_summary(fun.y = "mean", color="black", geom=c("point")) +
+  stat_QC() +
+  stat_QC_labels(digits = 3, alpha = 1/2) 
+
+ggmR <- ggplot(data = Process1, aes(x=repitition,y=value)) +
+  stat_mR() +
+  stat_QC_labels(digits = 2, method="mR")  + ylab("mR")
+  
+
+ggRbar <- ggplot(data = Process1, aes(x=repitition,y=value)) +
+  stat_summary(fun.y = "QCrange", color="blue", geom = "point") +
+  stat_summary(fun.y = "QCrange", color="blue", geom = "line") +
+  stat_QC(digits=2, method="rBar") + ylab("Rbar") +
+  stat_QC_labels(digits = 3, alpha = 1/2, method="rBar") 
+
+grid.arrange(ggX, ggmR, ggRbar, nrow=3)
+
+```
+
+
+#Complex Three Way Chart#
+
+```{r, message=FALSE, warning=FALSE, fig.height=12}
+ggX <- ggplot(data = all_processes, aes(x=repitition, y=value)) +
+  geom_point(alpha=.3) +
+  stat_summary(fun.y = "mean", color="black", geom=c("line")) +
+  stat_summary(fun.y = "mean", color="black", geom=c("point")) +
+  
+  stat_QC(color.qc_limits = "blue", method="xBar.rBar") + 
+  stat_QC(color.qc_limits = "lightblue", method="xBar.rBar", n = 1) + 
+  stat_QC(color.qc_limits = "orange", digits = 2, method="XmR") + 
+  
+  stat_QC_labels(digits = 3, alpha = 1/2) +
+  stat_QC_labels(digits = 3, alpha = 1/2, color.qc_limits = "purple", n=1) +
+  stat_QC_labels(digits = 3, color.qc_limits = "orange", method="XmR") + 
+  
+  facet_grid(.~process, scales = "free_x")
+
+ggmR <- ggplot(data = all_processes, aes(x=repitition,y=value)) +
+  stat_mR(color.mr_point = "orange", color.mr_line = "orange") +
+  stat_QC_labels(digits = 2, method="mR")  + ylab("mR") +
+  
+  facet_grid(.~process, scales = "free_x")
+
+
+ggRbar <- ggplot(data = all_processes, aes(x=as.factor(repitition),y=value, group=process)) +
+  stat_summary(fun.y = "QCrange", color="blue", geom = "point") +
+  stat_summary(fun.y = "QCrange", color="blue", geom = "line") +
+  
+  stat_QC(digits=2, method="rBar") + ylab("Rbar") +
+  stat_QC_labels(digits = 2, method="rBar")  +
+  
+  facet_grid(.~process, scales = "free_x")
+
+grid.arrange(ggX, ggmR, ggRbar, nrow=3)
+
+```
+

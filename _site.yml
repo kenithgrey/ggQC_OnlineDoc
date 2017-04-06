@@ -1,0 +1,39 @@
+name: "ggQC Documentation"
+navbar:
+  title: "ggQC Documentation"
+  left:
+    - text: "Home"
+      href: index.html
+    - text: "DOCs"
+      icon: fa-gear
+      menu:
+        - text: "Docs"
+        - text: "stat_mR()"
+          href: stat_mR.html
+        - text: "stat_QC()"
+          href: stat_QC.html
+        - text: "stat_QC_lables()"
+          href: stat_QC_labels.html
+    - text: "HOW TOs"
+      menu:
+        - text: "XmR"
+          href: XmR_HOWTO.html
+        - text: "c, p, u, np"
+          href: CPUNP_HOTTO.html
+        - text: "2 Way Control Charts"
+          href: TwoWayChart_HOWTO.html
+        - text: "3 Way Control Charts"
+          href: ThreeWayControlChart.html
+    - text: "Vignettes"
+      menu:
+        - text: "XmR (Golden Goose)"
+          href: XmR_Vignette.html
+        - text: "XbarR (Candle Molds)"
+          href: XbarR_Vignette.html  
+output:
+  html_document:
+    toc: true
+    toc_float: true
+    toc_depth: 4
+    highlight: pygments
+    theme: journal 
