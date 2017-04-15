@@ -7,7 +7,11 @@ XbarR charts are useful when monitoring a continuous process over time. Some exa
 
 Generating an Xbar or XbarS plot with ggQC is simple. To get us started, let's simulate some production line data on candles. The candles are shaped using a mold capable of producing 4 units a cycle. Each cycle takes an hour. Thus in a 24 hour period, the process would yield 96 candles. The parameter being tracked is candle width.  
 
-```{r}
+#Simulate Some Data#
+
+The code block below, generates the candle width data we are going to use to work with ggQC.
+
+```{r, message=FALSE, warning=FALSE}
 set.seed(5555)
 candle_df1t3 <- data.frame(
                 Cycle = as.factor(rep(1:24, each=3)),
@@ -46,7 +50,7 @@ XbarR <- ggplot(candle_df, aes(x = Cycle, y = candle_width, group = 1)) +
 XbarR
 ```
 
-Data looks to be in good control, but it would be nice the have the center line and control limits labeled before presenting it to the line manager. 
+Data looks to be in good control, but it would be nice to have the center line and control limits labeled before presenting it to the line manager. 
 
 ##Labeled XbarR Plot##
 
@@ -68,7 +72,7 @@ R_Bar <- ggplot(candle_df, aes(x = Cycle, y = candle_width, group = 1)) +
 R_Bar
 ```
 
-The second run for the day was more inconsistent than usual, and the line manager lifts an eye brow. He has just received a customer complaint that some of the candles are too wide to fit it their candle holders. He asks if you can show the individuals on the plot and the natural control limits.
+The second run for the day was more inconsistent than usual, and the line manager lifts an eye brow. He has just received a customer complaint that some of the candles are too wide to fit in their candle holders. He asks if you can show the individuals on the plot and the natural control limits.
 
 ##XbarR with Individuals##
 ```{r, fig.width=7}
@@ -85,7 +89,7 @@ XbarR <- ggplot(candle_df, aes(x = Cycle, y = candle_width, group = 1)) +
 XbarR
 ```
 
-The line manager is surprised to see so many widths over 13 units and wants you to examine the data as a function of the different cells in the mold
+The line manager is surprised to see so many individuals' widths are over 13 units, and wants to know how a candle width of nearly 16 could occure.  Leaving the converation you are are asked to examine the data as a function of the different cells in the mold.
 
 ##Colorizing the Data##
 ```{r fig.width=7}
@@ -102,10 +106,11 @@ XbarR <- ggplot(candle_df, aes(x = Cycle, y = candle_width, group = 1, color=mol
 XbarR
 
 ```
+
 Mold Cell 4 looks a little suspicious. So you plot an XmR chart for each cell. 
 
 ##Faceting##
-```{r fig.width=7}
+```{r fig.width=8.5}
 XmR <- ggplot(candle_df, 
       aes(x = Cycle, y = candle_width, group = 1, color = mold_cell)) +         
          geom_point() + geom_line() +
