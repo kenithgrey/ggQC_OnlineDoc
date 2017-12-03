@@ -14,6 +14,8 @@ navbar:
           href: stat_QC.html
         - text: "stat_QC_lables()"
           href: stat_QC_labels.html
+        - text: "stat_pareto()"
+          href: stat_pareto.html
     - text: "HOW TOs"
       menu:
         - text: "XmR"

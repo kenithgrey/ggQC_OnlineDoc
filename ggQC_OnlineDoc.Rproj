@@ -13,3 +13,4 @@ RnwWeave: Sweave
 LaTeX: pdfLaTeX
 
 BuildType: Website
+WebsitePath: C:/Users/billy/OneDrive/Documents/HTTP/R-bar/ggQC Related/ggQC_OnlineDoc
