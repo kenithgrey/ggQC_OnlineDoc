@@ -1,6 +1,6 @@
 name: "ggQC Documentation"
 navbar:
-  title: "ggQC Documentation"
+  title: "ggQC 0.0.2 Documentation"
   left:
     - text: "Home"
       href: index.html
@@ -16,6 +16,9 @@ navbar:
           href: stat_QC_labels.html
         - text: "stat_pareto()"
           href: stat_pareto.html
+        - text: "stat_qc_violations()"
+          href: DOCs_stat_qc_violations.html
+          
     - text: "HOW TOs"
       menu:
         - text: "XmR"
@@ -31,7 +34,9 @@ navbar:
         - text: "XmR (Golden Goose)"
           href: XmR_Vignette.html
         - text: "XbarR (Candle Molds)"
-          href: XbarR_Vignette.html  
+          href: XbarR_Vignette.html
+        - text: "pareto (ACME Washer Co.)"
+          href: pareto_Vignette.html 
 output:
   html_document:
     toc: true
