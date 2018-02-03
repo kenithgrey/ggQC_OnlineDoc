@@ -13,7 +13,7 @@ output:
 ***
 #Description#
 
-Write QC line lables to ggplot QC Charts. Useful if you want to see the value of the center line and QC limits. see method argument for methods supported.
+Write QC line labels to ggplot QC Charts. Useful if you want to see the value of the center line and QC limits. see method argument for methods supported.
 
 #Usage#
 

@@ -87,7 +87,7 @@ mR
 ```
 
 
-##mR Plot Lables##
+##mR Plot Labels##
 ```{r mR Plot Lables, fig.height=4, fig.width=4, message=FALSE, warning=FALSE}
 mR + stat_QC_labels(method = "mR", digits = 3) 
 ```
