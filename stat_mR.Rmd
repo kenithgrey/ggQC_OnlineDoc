@@ -13,7 +13,7 @@ output:
 ***
 #Description#
 
-ggplot stat used to create a mR chart in ggplot
+ggplot stat used to create a mR chart in ggplot. As of ggQC v0.0.3, the mR method can be called using stat_QC(method="mR"). 
 
 #Usage#
 
@@ -57,38 +57,81 @@ Process1 <- data.frame(processID = as.factor(rep(1,n)),
  
  This plot below is just the individual values for 10 points sampled out the the normal distribution.
  
-```{r Indivduals Chart, fig.width=4, fig.height=4}
-INDV <- ggplot(Process1, aes(x=Process_run_id, y = metric_value)) +
-       geom_point() + geom_line() 
-INDV
+```{r Indivduals Chart, fig.width=8, fig.height=4}
+#Before ggQC v0.0.3
+mr_stat_mR <- ggplot(Process1, aes(x=Process_run_id, y = metric_value)) +
+        ggtitle("stat_mR()", subtitle = "Yes, it's blank, go to next section") +
+        scale_x_continuous(expand =  expand_scale(mult = .15)) #pad x-axis
+
+#Preparing for stat_QC way of makring plot
+mR_Stat_QC <- ggplot(Process1, aes(x=Process_run_id, y = metric_value)) +
+  ggtitle("stat_QC(method='mR')", subtitle = "Yes, it's blank, go to next section") +
+  scale_x_continuous(expand =  expand_scale(mult = .15)) #pad x-axis
+
+gridExtra::grid.arrange(mr_stat_mR, mR_Stat_QC, nrow=1)
 ```
    
   To get the mR plot for this data, you just call stat_mR() as shown in the next section. Notice that there is no call for geom_point() or geom_line().
   
 ##mR Plot##
-```{r mR Plot, fig.height=4, fig.width=4, message=FALSE, warning=FALSE}
-mR <- ggplot(Process1, aes(x=Process_run_id, y = metric_value)) +
-       stat_mR()  
-mR
+```{r mR Plot, fig.height=4, fig.width=8, message=FALSE, warning=FALSE}
+mR <- mR_Stat_QC +
+      stat_mR() +
+      ggtitle("stat_mR()", subtitle = "uses stat_mR()")
+
+
+#example of making graph with stat_QC()
+MR2 <- mR_Stat_QC + 
+       stat_QC(method = "mR") +
+       ggtitle("stat_QC(method='mR')", subtitle = "uses stat_QC()")
+
+gridExtra::grid.arrange(mR, MR2, nrow=1)
+```
+
+##mR Plot Lables##
+```{r mR Plot Lables, fig.height=4, fig.width=8, message=FALSE, warning=FALSE}
+
+mR <- mR_Stat_QC +
+      stat_mR() +
+      stat_QC_labels(method = "mR", digits = 3) +
+      ggtitle("stat_mR()", subtitle = "uses stat_mR()")
+      
+MR2 <- mR_Stat_QC + 
+       stat_QC(method = "mR", auto.label = T, label.digits = 3) +
+       ggtitle("stat_QC(method='mR')", subtitle = "uses stat_QC()")
+
+gridExtra::grid.arrange(mR, MR2, nrow=1)
+
 ```
 
 ##Change mR Plot Point Color##
-```{r Change mR Plot Point Color, fig.height=4, fig.width=4, message=FALSE, warning=FALSE}
+```{r Change mR Plot Point Color, fig.height=4, fig.width=8, message=FALSE, warning=FALSE}
+
 mR <- ggplot(Process1, aes(x=Process_run_id, y = metric_value)) +
-       stat_mR(color.mr_point = "red")  
-mR
+       stat_mR(color.mr_point = "red") +
+       ggtitle("stat_mR()", subtitle = "uses stat_mR()")  
+
+#example of making graph with stat_QC()
+MR2 <- mR_Stat_QC + stat_QC(method = "mR", color.point = "red") +
+       ggtitle("stat_QC(method='mR')", subtitle = "uses stat_QC()")
+
+gridExtra::grid.arrange(mR, MR2, nrow=1)
 ```
 
 ##Change mR Plot Line Color##
-```{r Change mR Plot Line Color, fig.height=4, fig.width=4, message=FALSE, warning=FALSE}
+```{r Change mR Plot Line Color, fig.height=4, fig.width=8, message=FALSE, warning=FALSE}
 mR <- ggplot(Process1, aes(x=Process_run_id, y = metric_value)) +
-       stat_mR(color.mr_line = "purple")  
-mR
+       stat_mR(color.mr_line = "purple") +
+       ggtitle("stat_mR()", subtitle = "uses stat_mR()")  
+
+#example of making graph with stat_QC()
+MR2 <- mR_Stat_QC + stat_QC(method = "mR", color.point = "purple") +
+       ggtitle("stat_QC(method='mR')", subtitle = "uses stat_QC()")
+
+gridExtra::grid.arrange(mR, MR2, nrow=1)
 ```
 
 
-##mR Plot Lables##
-```{r mR Plot Lables, fig.height=4, fig.width=4, message=FALSE, warning=FALSE}
-mR + stat_QC_labels(method = "mR", digits = 3) 
-```
+
+
 

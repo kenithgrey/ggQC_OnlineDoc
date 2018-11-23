@@ -42,7 +42,7 @@ ggmR <- ggplot(data = Process1, aes(x=repitition,y=value)) +
 ggRbar <- ggplot(data = Process1, aes(x=repitition,y=value)) +
   stat_summary(fun.y = "QCrange", color="blue", geom = "point") +
   stat_summary(fun.y = "QCrange", color="blue", geom = "line") +
-  stat_QC(digits=2, method="rBar") + ylab("Rbar") +
+  stat_QC(method="rBar") + ylab("Rbar") +
   stat_QC_labels(digits = 3, alpha = 1/2, method="rBar") 
 
 grid.arrange(ggX, ggmR, ggRbar, nrow=3)
@@ -60,7 +60,7 @@ ggX <- ggplot(data = all_processes, aes(x=repitition, y=value)) +
   
   stat_QC(color.qc_limits = "blue", method="xBar.rBar") + 
   stat_QC(color.qc_limits = "lightblue", method="xBar.rBar", n = 1) + 
-  stat_QC(color.qc_limits = "orange", digits = 2, method="XmR") + 
+  stat_QC(color.qc_limits = "orange", label.digits = 2, method="XmR") + 
   
   stat_QC_labels(digits = 3, alpha = 1/2) +
   stat_QC_labels(digits = 3, alpha = 1/2, color.qc_limits = "purple", n=1) +
@@ -79,7 +79,7 @@ ggRbar <- ggplot(data = all_processes, aes(x=as.factor(repitition),y=value, grou
   stat_summary(fun.y = "QCrange", color="blue", geom = "point") +
   stat_summary(fun.y = "QCrange", color="blue", geom = "line") +
   
-  stat_QC(digits=2, method="rBar") + ylab("Rbar") +
+  stat_QC(method="rBar") + ylab("Rbar") +
   stat_QC_labels(digits = 2, method="rBar")  +
   
   facet_grid(.~process, scales = "free_x")

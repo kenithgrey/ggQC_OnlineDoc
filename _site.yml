@@ -1,6 +1,6 @@
 name: "ggQC Documentation"
 navbar:
-  title: "ggQC 0.0.2 Documentation"
+  title: "ggQC 0.0.31 Documentation"
   left:
     - text: "Home"
       href: index.html
@@ -10,10 +10,10 @@ navbar:
         - text: "Docs"
         - text: "stat_mR()"
           href: stat_mR.html
-        - text: "stat_QC
-          href: stat_QC.html()"
+        - text: "stat_QC"
+          href: stat_QC.html
         - text: "stat_QC_lables()"
-          href: stat_QC_labels.html
+          href: stat_QC_lables.html
         - text: "stat_pareto()"
           href: stat_pareto.html
         - text: "stat_qc_violations()"
@@ -24,7 +24,7 @@ navbar:
         - text: "XmR"
           href: XmR_HOWTO.html
         - text: "c, p, u, np"
-          href: CPUNP_HOTTO.html
+          href: CPUNP_HOWTO.html
         - text: "2 Way Control Charts"
           href: TwoWayChart_HOWTO.html
         - text: "3 Way Control Charts"

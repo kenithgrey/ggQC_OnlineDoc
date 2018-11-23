@@ -67,7 +67,7 @@ Xbar <- ggXbarR +
 R <- ggXbarR + 
       stat_summary(fun.y = "QCrange", colour = "black", geom = c("line")) +
       stat_summary(fun.y = "QCrange", colour = "black", size = 2, geom = c("point")) +
-      stat_QC(method = "rBar", digits = 2) +
+      stat_QC(method = "rBar") +
       stat_QC_labels(method = "rBar", digits = 2) +
       ylab("R-bar")
 
@@ -98,7 +98,7 @@ Xbar <- ggXbarR +
 S <- ggXbarR + 
       stat_summary(fun.y = "sd", colour = "black", geom = c("line")) +
       stat_summary(fun.y = "sd", colour = "black", size = 2, geom = c("point")) +
-      stat_QC(method = "sBar", digits = 2) +
+      stat_QC(method = "sBar") +
       stat_QC_labels(method = "sBar", digits = 2) +
       ylab("S-bar")
 

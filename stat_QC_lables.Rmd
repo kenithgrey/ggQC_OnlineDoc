@@ -15,6 +15,8 @@ output:
 
 Write QC line lables to ggplot QC Charts. Useful if you want to see the value of the center line and QC limits. see method argument for methods supported.
 
+>This function has been largely replaced by setting stat_QC(auto.label=T) when you specify stat_QC. However, there may be times when stat_QC_labels() provides you with additional control. 
+
 #Usage#
 
     stat_QC_labels(mapping = NULL, data = NULL, geom = "label",

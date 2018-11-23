@@ -95,7 +95,7 @@ XmR_Town <- ggplot(GooseData, aes(x = month, y = egg_diameter)) +
                stat_QC_labels(method="XmR") +
                facet_grid(.~group) + xlim(0,14)
 mR_Town <- ggplot(GooseData, aes(x = month, y = egg_diameter)) +
-               stat_mR(method = "mR") + 
+               stat_mR() + 
                stat_QC_labels(method="mR") +
                facet_grid(.~group) + ylab("mR") + xlim(0,14)
 

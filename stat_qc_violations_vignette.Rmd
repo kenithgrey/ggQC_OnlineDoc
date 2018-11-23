@@ -29,7 +29,7 @@ Why these 2 extra columns? The order of the observations is very important when 
 
 ##Setup the Data##
 
-```{r, message=FALSE, warning=FALSE}
+```{r Setup Data, message=FALSE, warning=FALSE}
 set.seed(5555)
 candle_df1t3 <- data.frame(
                 Cycle = as.factor(rep(1:24, each=3)),
